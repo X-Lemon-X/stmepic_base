@@ -1,14 +1,10 @@
 
 
-target_include_directories(${UPPER_PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include/${UPPER_PROJECT_NAME}> 
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}> 
 )
 
-target_sources(${UPPER_PROJECT_NAME} PRIVATE
-  ntc_termistor.cpp
-  MCP9700AT.cpp
-  BNO055.cpp
-  BMP280.cpp
-  ICM20948.cpp
+target_sources(${PROJECT_NAME} PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/ntc_termistor.cpp
 )

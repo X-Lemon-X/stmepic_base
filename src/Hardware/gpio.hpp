@@ -36,7 +36,7 @@ static const uint32_t GPIO_ANALOG_RESOLUTION_10BIT = 1023;
 static const uint32_t GPIO_ANALOG_RESOLUTION_12BIT = 4095;
 static const uint32_t GPIO_ANALOG_RESOLUTION_14BIT = 16383;
 static const uint32_t GPIO_ANALOG_RESOLUTION_16BIT = 65535;
-static const uint32_t GPIO_ANALOG_RESOLUTION_24BIT = 
+static const uint32_t GPIO_ANALOG_RESOLUTION_24BIT = 16777215;
 
 
 class GpioPinBase {
@@ -45,14 +45,14 @@ public:
 
   /// @brief Write 1 or 0 to the gpio pin
   /// @param value 1 or 0
-  void write(uint8_t value);
+  virtual void write(uint8_t value);
 
   /// @brief Read the value of the gpio pin
   /// @return 1 or 0
-  uint8_t read();
+  virtual uint8_t read();
 
   /// @brief Toggles the gpio pin from 1->0 or 0->1 respectively
-  void toggle();
+  virtual void toggle();
 
 };
 
@@ -60,10 +60,10 @@ class GpioAnalogBase : public GpioPinBase {
 public:
 
   /// @brief return voltage read on the pin.
-  float get_voltage();
+  virtual float get_voltage();
 
   /// @brief Get analog pin value
-  uint32_t get_value();
+  virtual uint32_t get_value();
 
 };
 
