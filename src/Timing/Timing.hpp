@@ -1,11 +1,10 @@
 #pragma once
 
-
-#include "stmepic.hpp"
 #include "status.hpp"
+#include "stmepic.hpp"
+#include <functional>
 #include <memory>
 #include <vector>
-#include <functional>
 
 /**
  * @file Timing.hpp
@@ -35,12 +34,11 @@ uint32_t frequency_to_period_us(float frequency);
  * The Ticer is used globally by multiple classes.
  * There fore it's important to initalise the static instance of the Ticker class.
  */
-class TickerBase {
-public:
-  
-  
-
-  /// @brief this function should be executed once in a timer interrupt for each passing 1ms, therefore the frequency of the imer interrupt shoul dbe set to exactly 1ms
+class TickerBase
+{
+ public:
+  /// @brief this function should be executed once in a timer interrupt for each passing
+  /// 1ms, therefore the frequency of the imer interrupt shoul dbe set to exactly 1ms
   virtual void irq_update_ticker();
 
   // void update_ticker_loop();
@@ -59,7 +57,7 @@ public:
 
   /// @brief Get the global instance of the Ticker object
   /// This shoule be initated otherwise bunch of other relying classes will not work
-  static TickerBase &get_instance();
+  static TickerBase& get_instance();
 
   /// @brief Delay for a specified amount of time
   /// @param delay time to delay in miliseconds [ms]
@@ -69,10 +67,9 @@ public:
   /// @param delay time to delay in microseconds [us]
   virtual void delay_nop(uint32_t microseconds);
 
-private:
-  static TickerBase *ticker;
+ private:
+  static TickerBase* ticker;
 };
-
 
 /**
  * @class Timer
@@ -85,22 +82,27 @@ private:
  * In task scenario Timing should be used with TimeScheduler.
  */
 
-class Timer {
+class Timer
+{
 
-public:
-  using callback_funciton = std::function<void(Timer &)>;
+ public:
+  using callback_funciton = std::function<void(Timer&)>;
   uint32_t last_time;
   uint32_t difference_d;
   uint32_t current_time_d;
 
   /// @brief Construct a new Timing object
   /// @param ticker reference to the ticker object with us resolution
-  Timer(Ticker &ticker);
+  Timer(TickerBase& ticker);
 
-  /// @brief Make a new Timing object and assign function to be called when the timer triggers
+  /// @brief Make a new Timing object and assign function to be called when the timer
+  /// triggers
   /// @return Technicaly it always returns OK so no need to check the status for now.
-  static Result<std::shared_ptr<Timer>>
-  Make(uint32_t period, bool repeat = true, callback_funciton function = nullptr, Ticker &ticker = Ticker::get_instance());
+  static Result<std::shared_ptr<Timer>> Make(
+    uint32_t period,
+    bool repeat = true,
+    callback_funciton function = nullptr,
+    TickerBase& ticker = TickerBase::get_instance());
 
   /// @brief Set the behaviour of the timer
   /// @param period period of the timer in microseconds [us]
@@ -120,8 +122,8 @@ public:
   /// @brief allows to disbale and enabel timer freely
   void enable(bool timer_enabled);
 
-private:
-  TickerBase &ticker;
+ private:
+  TickerBase& ticker;
   uint32_t period;
   bool repeat, triggered_flag;
   bool timer_enabled;

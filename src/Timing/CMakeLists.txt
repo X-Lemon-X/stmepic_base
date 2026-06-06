@@ -1,10 +1,10 @@
 
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(stmepic_base INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include/${PROJECT_NAME}> 
+  $<INSTALL_INTERFACE:include/stmepic_base> 
 )
 
-target_sources(${PROJECT_NAME} PRIVATE
+target_sources(stmepic_base PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/Timing.cpp
 )

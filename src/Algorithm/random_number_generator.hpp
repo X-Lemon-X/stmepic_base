@@ -10,7 +10,6 @@
 #include "stmepic.hpp"
 #include <limits>
 
-
 /**
  * @file sha256.hpp
  * @brief SHA256 algoritm implementation.
@@ -26,17 +25,18 @@
 namespace stmepic::algorithm {
 
 /// @brief Generate sha256 from provided data
-class RandomNumberGenerator {
-public:
+class RandomNumberGenerator
+{
+ public:
   RandomNumberGenerator();
 
-  static RandomNumberGenerator &get_instance();
+  static RandomNumberGenerator& get_instance();
 
-// #ifdef HAL_RNG_MODULE_ENABLED
-//   Status init(RNG_HandleTypeDef &hrng);
-// #endif
+  // #ifdef HAL_RNG_MODULE_ENABLED
+  //   Status init(RNG_HandleTypeDef &hrng);
+  // #endif
 
-  Status init(uint32_t seed = Ticker::get_instance().get_micros());
+  Status init(uint32_t seed = TickerBase::get_instance().get_micros());
 
   /// @brief Generate a random number
   /// @return a random number between 0 and 2^32-1
@@ -47,15 +47,17 @@ public:
   /// @param min the minimum value of the random number
   /// @param max the maximum value of the random number
   /// @return a random number between min and max
-  template <typename T> T random(T min, T max) {
+  template<typename T>
+  T random(T min, T max)
+  {
     float scale = (float)random() / (float)std::numeric_limits<uint32_t>::max();
     return (T)(min + scale * (max - min));
   }
 
-private:
-// #ifdef HAL_RNG_MODULE_ENABLED
-//   RNG_HandleTypeDef *hrng;
-// #endif
+ private:
+  // #ifdef HAL_RNG_MODULE_ENABLED
+  //   RNG_HandleTypeDef *hrng;
+  // #endif
 };
 
 } // namespace stmepic::algorithm
