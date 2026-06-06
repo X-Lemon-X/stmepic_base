@@ -41,6 +41,8 @@ class TickerBase
   /// 1ms, therefore the frequency of the imer interrupt shoul dbe set to exactly 1ms
   virtual void irq_update_ticker();
 
+  static Status init(TickerBase* ticker);
+
   // void update_ticker_loop();
 
   /// @brief Get current time in microseconds
@@ -69,6 +71,8 @@ class TickerBase
 
  private:
   static TickerBase* ticker;
+  uint32_t tick_millis;
+  uint32_t tick_micros;
 };
 
 /**
